@@ -1,13 +1,19 @@
-# Dependencies
-library(magick)
-library(purrr)
+#' @title hexwall
+#' @description Neatly align hexagon stickers in R
+#' @param path path to a folder of hexagon stickers
+#' @param sticker_row_size number of stickers in the longest row
+#' @param sticker_width width of each sticker (in pixels)
+#' @param remove_small should hexagons smaller than sticker_width be removed?
+#' @param remove_size Should hexagons of an abnormal size be removed?
+#' @examples
+#' hexwall("samplehex", sticker_row_size = 3, sticker_width = 200)
+#' @export
+#' @importFrom magick image_append image_blank image_composite image_info 
+#'                    image_read image_resize image_scale image_trim
+#' @importFrom purrr invoke map map2 map_dbl map_lgl reduce2 set_names 
 
-# path:             The path to a folder of hexagon stickers
-# sticker_row_size: The number of stickers in the longest row
-# sticker_width:    The width of each sticker in pixels
-# remove_small:     Should hexagons smaller than the sticker_width be removed?
-# remove_size:      Should hexagons of an abnormal size be removed?
-hexwall <- function(path, sticker_row_size = 10, sticker_width = 200, remove_small = TRUE, remove_size = TRUE){
+hexwall <- function(path, sticker_row_size = 10, sticker_width = 200, 
+                    remove_small = TRUE, remove_size = TRUE){
   # Load stickers
   sticker_files <- list.files(path)
   stickers <- file.path(path, sticker_files) %>% 
@@ -48,7 +54,7 @@ hexwall <- function(path, sticker_row_size = 10, sticker_width = 200, remove_sma
   # Arrange rows of stickers into images
   sticker_col_size <- ceiling(length(stickers)/(sticker_row_size-0.5))
   row_lens <- rep(c(sticker_row_size,sticker_row_size-1), length.out=sticker_col_size)
-  row_lens[length(row_lens)] <- row_lens[length(row_lens)]  - (length(stickers) - sum(row_lens))
+  row_lens[length(row_lens)] <- row_lens[length(row_lens)] - (length(stickers) - sum(row_lens))
   sticker_rows <- map2(row_lens, cumsum(row_lens),
                        ~ seq(.y-.x+1, by = 1, length.out = .x)) %>%
     map(~ stickers[.x] %>%

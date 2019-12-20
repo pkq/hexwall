@@ -1,0 +1,23 @@
+Package: hexwall
+Type: Package
+  Title: Neatly Align Hexagon Stickers in R
+Version: 0.0.0.9000
+Date: 2018-06-01
+Authors@R: c(
+    person("Mitchell", "O'Hara-Wild", email = "mail@mitchelloharawild.com", role = c("aut", "cre")),
+    person("Patrick", "Kennedy", email = "pkqstr@protonmail.com", role = c("aut"),
+           comment = c(ORCID = "0000-0002-5525-3983"))
+    )
+Description: hexwall can be used to generate an image that neatly arranges a folder
+    of hexagons. It uses the ImageMagick library via the ROpenSci packagemagick to 
+    arrange the images.
+URL: https://github.com/mitchelloharawild/hexwall
+BugReports: https://github.com/mitchelloharawild/hexwall/issues
+Encoding: UTF-8
+License: GPL-3
+LazyData: true
+ByteCompile: true
+RoxygenNote: 6.0.1.9000
+Imports: 
+    magick,
+    purrr
